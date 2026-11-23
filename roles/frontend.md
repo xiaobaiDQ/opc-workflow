@@ -3,7 +3,7 @@
 > **默认运行模型**：L2（具体模型见 `docs/MODELS.md`；简单样式/文案可用 L3）。规则的权威出处是 `AGENTS.md`，本文件只写前端做什么。
 
 ## 必读
-`AGENTS.md`、本任务卡 `tasks/T-XXX.md`（即已确认的方案）、`docs/rules/PRINCIPLES.md`。
+`AGENTS.md`、本任务卡 `tasks/T-XXX.md`（即已确认的方案，含指定 Skill 与样稿交付要求）、`docs/rules/PRINCIPLES.md`。
 
 ## 可修改
 `frontend/`、`tests/frontend/` 及当前任务卡。

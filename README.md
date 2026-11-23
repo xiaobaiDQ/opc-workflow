@@ -24,6 +24,8 @@ AGENTS.md / CLAUDE.md     总规则（唯一权威出处）
 roles/                    6 份角色说明书（gm / architect / backend / frontend / qa / helper 小伙计）
 docs/PRD.md               产品需求
 docs/MODELS.md            L1/L2/L3 → 本机 OpenCode 模型映射
+docs/SKILLS.md            项目级 Skill 管理总表（来源、角色、各执行器实测状态）
+skills/                   项目实际安装的 Skill 目录（扁平存放 skills/<名>/SKILL.md）
 docs/STACK.md             技术栈与决策记录
 docs/rules/               通用编码规范只读快照（PRINCIPLES / WORKFLOW / RESEARCH / HANDOVER）
 tasks/board.md            任务总表（仅 GM 维护）
