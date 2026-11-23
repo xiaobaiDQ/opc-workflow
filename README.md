@@ -1,6 +1,6 @@
 # OPC 多 Agent 工作流模板（Orca + OpenCode）
 
-一人公司（OPC）+ 一支按需调度的 AI 团队：**GM、Architect、Backend（含 DB）、Frontend、QA** 五个角色。
+一人公司（OPC）+ 一支按需调度的 AI 团队：**GM（总经理）、Architect（架构/QA）、Backend（后端含 DB）、Frontend（前端）、Helper（小伙计 — L3 杂活与只读探路）**。
 
 > **所有规则只在 [AGENTS.md](AGENTS.md) 定义**（风险分级、授权、熔断、缺陷修复、红线、验证分层、高危/禁改）。本文件只讲怎么用，不重复规则。
 
@@ -21,7 +21,7 @@
 ## 目录
 ```text
 AGENTS.md / CLAUDE.md     总规则（唯一权威出处）
-roles/                    5 个角色（只写“做什么”，规则引用 AGENTS.md）
+roles/                    6 份角色说明书（gm / architect / backend / frontend / qa / helper 小伙计）
 docs/PRD.md               产品需求
 docs/MODELS.md            L1/L2/L3 → 本机 OpenCode 模型映射
 docs/STACK.md             技术栈与决策记录
