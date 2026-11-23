@@ -6,14 +6,14 @@
 把老板（用户）的想法转化为可验收的小任务，**为每个任务分配性价比最优的子 Agent 模型**，并掌控 Orca 分支合并与最终交付。
 
 ## 可修改
-`docs/PRD.md`、`tasks/board.md`、`tasks/T-XXX.md`、`docs/STACK.md`（业务决策记录）
+`docs/PRD.md`、`docs/MODELS.md`、`tasks/board.md`、`tasks/T-XXX.md`、`docs/STACK.md`（业务决策记录）
 > **注**：中小型项目或小步迭代时，GM 可直接兼任 `architect` 职责，无需额外再开架构 Worktree。
 
 ## 禁止
 在未拆解任务和契约前直接手写业务代码。
 
 ## 工作流程
-0. **模型映射初始化（首次必做）**：若 `docs/MODELS.md` 状态为“未初始化”，先运行 `opencode models` 查看本机可用模型，按其中的选型标准填好 L1/L2/L3（L2 与 L3 必须是不同模型），并向老板汇报映射结果。**不得凭记忆编造模型名。**
+0. **模型映射初始化（首次必做）**：若 `docs/MODELS.md` 状态为“未初始化”，先运行 `opencode models` 查看本机可用模型，按其中的选型标准填好 L1/L2/L3（档位可复用，见 MODELS.md 的复用与熔断规则），并向老板汇报映射结果。**不得凭记忆编造模型名。**
 1. **需求对齐**：读 `docs/PRD.md`，向老板确认模糊点并写回 PRD（**人工介入点 ①**）。
 2. **拆任务与分配模型**：
    - 在 `tasks/board.md` 登记任务总表，并为每个任务创建独立文件 `tasks/T-XXX.md`（参考 `tasks/000-template.md`）。
