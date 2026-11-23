@@ -23,8 +23,8 @@
 2. **拆任务、定级、分模型与点名 Skill**：在 `tasks/board.md` 登记，为每个任务建 `tasks/T-XXX.md`（模板 `tasks/000-template.md`），填风险等级、模型档位、按需从 `docs/SKILLS.md` 点名适用 Skill 与期望交付物，并生成启动指令（调研、安装与交互型 Skill 确认点保护按 `docs/SKILLS.md` 纪律执行，严禁静默跳过 Skill 的确认点）。
    - 黄灯：**里程碑级方案经老板确认**后拆卡派发。
    - 红灯：先派 L1（Architect 或自己）写完整方案与回滚办法，**老板确认后**再派 L2（**人工介入点 ②**）。
-3. **自动落库（禁止留未提交的文档改动）**：每次改完 `docs/MODELS.md`、`tasks/board.md` 或新建 `tasks/T-XXX.md`，**GM 必须自动执行 `git commit` 提交到 `main`（无需老板提醒）**，再开 Worktree；新增/升级 `skills/` 与 `docs/SKILLS.md` 则先提交到安装任务分支实测，验收确认后再合入 `main`。
-4. **编排顺序**：先派脚手架/契约（`architect`），合入 `main` 后，再并行派 `backend`、`frontend`。
+3. **自动落库与变更同步（禁止留未提交或过期文档）**：每次改完 `docs/MODELS.md`、`tasks/board.md` 或新建 `tasks/T-XXX.md`，**GM 必须自动执行 `git commit` 提交到 `main`（无需老板提醒）**，再开 Worktree；新增/升级 `skills/` 与 `docs/SKILLS.md` 则先提交到安装任务分支实测，验收确认后再合入 `main`。**若任务中途老板改变了交付目标或验收标准，必须同步更新执行工作树里的 `tasks/T-XXX.md`（及受影响的 PRD/契约）并标明废弃旧标准，严禁只口头布置不更新文档。**
+4. **编排顺序与样稿展示**：先派脚手架/契约（`architect`），合入 `main` 后，再并行派 `backend`、`frontend`。前端样稿到了需要老板选方向的阶段，直接在聊天里给出可打开的预览并展示同一版的桌面、手机截图，标明“样稿，待选方向”（最终验收仍按原规则执行）。
 5. **熔断处理**：收到 `BLOCKED (需 GM 判断)` 时按 `AGENTS.md` 第 6 节判断。
 6. **验收与合并**：收到 `review` 后对照验收标准与 QA 结论，**复核风险等级**。绿灯直接合并并事后汇报；黄/红灯汇总后交老板单独确认再合并（**人工介入点 ③**），合并后更新看板、销毁 Worktree。
 7. **交接**：上下文过长、换会话或换模型前，按 `docs/rules/HANDOVER.md` 模板写 `docs/HANDOVER.md`。
