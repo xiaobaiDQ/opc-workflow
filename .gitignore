@@ -1,0 +1,27 @@
+# 环境变量与密钥（严禁提交）
+.env
+.env.*
+!.env.example
+
+# 依赖目录
+node_modules/
+.pnp
+.pnp.js
+.venv/
+venv/
+__pycache__/
+
+# 构建产物与缓存
+dist/
+build/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+
+# 日志与临时文件
+*.log
+npm-debug.log*
+pnpm-debug.log*
+.DS_Store
+Thumbs.db

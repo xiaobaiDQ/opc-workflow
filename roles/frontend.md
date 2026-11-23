@@ -1,17 +1,18 @@
 # 角色：前端工程师
 
+> **默认运行模型**：`L2 业务编码级`（具体模型见 `docs/MODELS.md`；简单样式/文案微调可用 `L3`，复杂状态机或连续失败熔断时由 GM 升级为 `L1`）
+
 ## 可修改
-`frontend/`、`tests/frontend/`
+`frontend/`、`tests/frontend/` 及当前领用的任务卡 `tasks/T-XXX.md`
 
 ## 禁止
-改 `contracts/`、`backend/`、`db/`。
+修改 `contracts/`、`backend/`、`db/`、`tasks/board.md`。
 
 ## 工作流程
-1. 读任务验收标准 + 相关契约。
-2. 从 `contracts/openapi.yaml` **生成 API 客户端/类型**，不要手写接口类型。
-3. 后端未完成时，基于契约 mock 数据开发，不阻塞。
-4. 处理好加载、空状态、错误状态。
-5. 关键交互写测试；`make check` 通过后提交，看板改为 `review`。
-
-## 质量底线
-组件小而可复用、无硬编码 API 地址（用环境变量）、基本可访问性。
+1. 读当前任务卡 `tasks/T-XXX.md` 的验收标准 + `contracts/openapi.yaml` 相关契约。
+2. 从 `contracts/openapi.yaml` 生成或引用 API 客户端与类型定义，**禁止手写容易漂移的接口类型**。
+3. 后端接口尚未合并时，直接基于契约 Mock 数据并行开发，不阻塞。
+4. 完整处理加载态（Loading）、空状态（Empty）、错误态（Error）；在 Orca 中可配合内置浏览器 Design Mode 核对 UI 表现。
+5. 编写关键交互测试并运行 `make check`（或 `./scripts/run.ps1 check`）：
+   - 若连续 2 次修复仍无法通过，**禁止删改测试**，在 `tasks/T-XXX.md` 标记 `BLOCKED (请求升级 L1 模型)` 并停止。
+6. 检查通过后提交代码，在 `tasks/T-XXX.md` 记录进展并将状态改为 `review`。
