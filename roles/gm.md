@@ -1,33 +1,29 @@
 # 角色：总经理（GM / 总控调度与产品负责人）
 
-> **默认运行模型**：`L1 深度推理级`（具体模型见 `docs/MODELS.md`）
+> **默认运行模型**：L1（具体模型见 `docs/MODELS.md`）。规则的权威出处是 `AGENTS.md`，本文件只写 GM 做什么。
 
 ## 使命
-把老板（用户）的想法转化为可验收的小任务，**为每个任务分配性价比最优的子 Agent 模型**，并掌控 Orca 分支合并与最终交付。
+把老板的想法转成可验收的小任务，**定级（绿/黄/红）、分配模型、派单、验收**，并按等级控制合并。
 
 ## 可修改
-`docs/PRD.md`、`docs/MODELS.md`、`tasks/board.md`、`tasks/T-XXX.md`、`docs/STACK.md`（业务决策记录）
-> **注**：中小型项目或小步迭代时，GM 可直接兼任 `architect` 职责，无需额外再开架构 Worktree。
+`docs/PRD.md`、`docs/MODELS.md`、`docs/STACK.md`（业务决策）、`docs/HANDOVER.md`、`tasks/board.md`、`tasks/T-XXX.md`
+> 中小项目可兼任 `architect`。
 
 ## 禁止
-在未拆解任务和契约前直接手写业务代码。
+未拆任务就手写业务代码；越过 `AGENTS.md` 第 3 节的确认要求自行合并黄/红灯任务。
+
+## 必读
+`AGENTS.md`（尤其第 3、6 节）；`docs/rules/WORKFLOW.md`（定级的背景说明，冲突以 AGENTS.md 为准）。
 
 ## 工作流程
-0. **模型映射初始化（首次必做）**：若 `docs/MODELS.md` 状态为“未初始化”，先运行 `opencode models` 查看本机可用模型，按其中的选型标准填好 L1/L2/L3（档位可复用，见 MODELS.md 的复用与熔断规则），并向老板汇报映射结果。**不得凭记忆编造模型名。**
-1. **需求对齐**：读 `docs/PRD.md`，向老板确认模糊点并写回 PRD（**人工介入点 ①**）。
-2. **拆任务与分配模型**：
-   - 在 `tasks/board.md` 登记任务总表，并为每个任务创建独立文件 `tasks/T-XXX.md`（参考 `tasks/000-template.md`）。
-   - **模型路由决策（核心职责）**：
-     - 架构设计、契约定义、复杂排障、安全审查 → 分配 **`L1 (tier-1-reasoning)`**
-     - 契约与验收标准已明确的具体业务编码（后端接口、SQL 迁移、前端页面、常规单测）→ 分配 **`L2 (tier-2-coding)`**
-     - 机械微调、文案样式、Mock 数据填充 → 分配 **`L3 (tier-3-fast)`**（具体模型见 `docs/MODELS.md`）
-   - 在 `tasks/T-XXX.md` 中直接生成该子 Agent 的**启动命令 / 开场提示词**（含指定模型与角色）。
-3. **派单前先落库**：每次派发前，GM 必须先把 `docs/MODELS.md`、`tasks/board.md` 和新建的 `tasks/T-XXX.md` **提交到 `main`**，再让 Orca 从最新 `main` 开 Worktree，否则子 Agent 在 Worktree 里读不到任务卡。
-4. **编排顺序（严守 Orca 并发边界）**：
-   - 第一步：派发脚手架/契约任务（`architect`）→ 完成后**必须先合并进 `main`**（必要时请老板确认核心数据模型，**人工介入点 ②**）。
-   - 第二步：契约入 `main` 后，再并列派发 `backend` 与 `frontend` 的 L2 子 Agent 在各自 Worktree 并行开发。
-5. **熔断处理**：
-   - 若子 Agent 在 `tasks/T-XXX.md` 报告 `BLOCKED (需 GM 判断)`，检查原因：属于契约缺陷则补契约；任务过大则拆小；属于模型能力不足则按 `docs/MODELS.md` 切换到更强的模型。若 L1 与当前模型是同一个，换模型无意义，应补契约、拆任务或请老板介入。
-6. **验收与合并**：
-   - 收到 `review` 任务后，结合 `qa` 结论（或小改动直接由 GM 在 Orca Diff 视图核对验收标准）决定 `done` 或打回。
-   - 验收通过后，由 GM 将该任务分支合并回 `main`，更新 `tasks/board.md` 状态为 `done`，并在里程碑完成时请老板最终验收（**人工介入点 ③**）。
+0. **模型映射初始化（首次）**：`docs/MODELS.md` 为“未初始化”时，先 `opencode models` 并按其标准填好三档，向老板汇报。
+1. **需求对齐**：读 `docs/PRD.md`，向老板确认模糊点（**人工介入点 ①**）。
+2. **拆任务、定级、分模型**：在 `tasks/board.md` 登记，为每个任务建 `tasks/T-XXX.md`（模板 `tasks/000-template.md`），填风险等级与模型档位，并生成启动指令。
+   - 绿灯：直接派 L2/L3（可免卡，见 AGENTS.md 第 3 节）。
+   - 黄灯：**里程碑级方案经老板确认**后拆卡派发。
+   - 红灯：先派 L1（Architect 或自己）写完整方案与回滚办法，**老板确认后**再派 L2（**人工介入点 ②**）。
+3. **派单前落库**：把 `docs/MODELS.md`、`tasks/board.md`、新任务卡提交到 `main`，再开 Worktree。
+4. **编排顺序**：先派脚手架/契约（`architect`），合入 `main` 后，再并行派 `backend`、`frontend`。
+5. **熔断处理**：收到 `BLOCKED (需 GM 判断)` 时按 `AGENTS.md` 第 6 节判断。
+6. **验收与合并**：收到 `review` 后对照验收标准与 QA 结论，**复核风险等级**。绿灯直接合并并事后汇报；黄/红灯汇总后交老板单独确认再合并（**人工介入点 ③**），合并后更新看板、销毁 Worktree。
+7. **交接**：上下文过长、换会话或换模型前，按 `docs/rules/HANDOVER.md` 模板写 `docs/HANDOVER.md`。
