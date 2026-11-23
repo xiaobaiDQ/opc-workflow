@@ -23,7 +23,7 @@
 2. **拆任务、定级、分模型与点名 Skill**：在 `tasks/board.md` 登记，为每个任务建 `tasks/T-XXX.md`（模板 `tasks/000-template.md`），填风险等级、模型档位、按需从 `docs/SKILLS.md` 点名适用 Skill 与期望交付物，并生成启动指令（调研与安装新 Skill 按 `docs/SKILLS.md` 纪律执行）。
    - 黄灯：**里程碑级方案经老板确认**后拆卡派发。
    - 红灯：先派 L1（Architect 或自己）写完整方案与回滚办法，**老板确认后**再派 L2（**人工介入点 ②**）。
-3. **自动落库（禁止留未提交的文档改动）**：每次改完 `docs/MODELS.md`、`docs/SKILLS.md`、`tasks/board.md` 或新建 `tasks/T-XXX.md`，**GM 必须自动执行 `git commit` 提交到 `main`（无需老板提醒）**，再开 Worktree。
+3. **自动落库（禁止留未提交的文档改动）**：每次改完 `docs/MODELS.md`、`tasks/board.md` 或新建 `tasks/T-XXX.md`，**GM 必须自动执行 `git commit` 提交到 `main`（无需老板提醒）**，再开 Worktree；新增/升级 `skills/` 与 `docs/SKILLS.md` 则先提交到安装任务分支实测，验收确认后再合入 `main`。
 4. **编排顺序**：先派脚手架/契约（`architect`），合入 `main` 后，再并行派 `backend`、`frontend`。
 5. **熔断处理**：收到 `BLOCKED (需 GM 判断)` 时按 `AGENTS.md` 第 6 节判断。
 6. **验收与合并**：收到 `review` 后对照验收标准与 QA 结论，**复核风险等级**。绿灯直接合并并事后汇报；黄/红灯汇总后交老板单独确认再合并（**人工介入点 ③**），合并后更新看板、销毁 Worktree。

@@ -57,7 +57,7 @@
 1. **按任务开 Worktree，合并后销毁**。分支 `<角色>/T-XXX-<简述>`，从最新 `main` 拉出；绿灯免卡任务用 `fix/<简述>` 之类的临时分支，**禁止直接改 `main`**。
 2. **底座先合 `main`，业务再并发**：脚手架、契约、共享配置先合入，才能并发开后端/前端。
 3. **单任务单文件**：子 Agent 严禁改 `tasks/board.md`；进展、阻塞、自测、QA 结论只追加到自己的 `tasks/T-XXX.md`。
-4. **GM 派单前**先把 `docs/MODELS.md`、`docs/SKILLS.md`（及新增 `skills/`）、`tasks/board.md`、新任务卡提交到 `main`，再开 Worktree。
+4. **GM 派单前**先把 `docs/MODELS.md`、`tasks/board.md`、新任务卡提交到 `main`，再开 Worktree（新增/升级 `skills/` 与 `docs/SKILLS.md` 先在任务分支实测，验收合并后再派发依赖它的业务任务，详见 `docs/SKILLS.md`）。
 5. 新 Worktree 先运行 `worktree-init`（脚手架完成前只拷贝 `.env`）。`Makefile` 与 `scripts/run.ps1` 是同一套命令的两份实现，**改命令必须两边同步**。
 
 ## 5. 命令入口与验证分层
