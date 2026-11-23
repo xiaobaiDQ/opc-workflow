@@ -42,6 +42,8 @@
    - 子 Agent **严禁修改 `tasks/board.md`**。
    - 所有进展、阻塞提问、自测结果、QA 结论统一追加到该任务自己的 `tasks/T-XXX.md` 中。
 4. **新 Worktree 环境隔离**：
+   - GM 必须先把任务卡提交进 `main` 再开 Worktree。新建 Worktree 后先运行 `worktree-init`（脚手架完成前只拷贝 `.env`）。
+   - `Makefile` 与 `scripts/run.ps1` 是同一套命令的两份实现，改命令必须两边同步。
    - 新建 Worktree 后先跑初始化命令自动准备 `.env` 与依赖；多 Worktree 并行启动本地服务时通过 `.env` 中的端口变量错开端口，避免容器与端口冲突。
 
 ## 4. 统一命令入口

@@ -11,7 +11,11 @@ function Invoke-WorktreeInit {
         Copy-Item ".env.example" ".env"
         Write-Host "Created .env from .env.example"
     }
-    Invoke-Setup
+    if (Test-Path ".scaffold-ready") {
+        Invoke-Setup
+    } else {
+        Write-Host "[skip] 脚手架尚未完成(无 .scaffold-ready)，跳过依赖安装。T-001 完成时由 architect 创建该标记。"
+    }
 }
 
 function Invoke-Setup {

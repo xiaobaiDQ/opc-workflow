@@ -27,5 +27,7 @@
 | L3 | _待填_ | _待填_ | |
 
 ## 启动方式（OpenCode）
-- 在 Orca 的 OpenCode 终端中用 `/models` 切换，或启动时指定 `opencode -m <provider/model>`。
+- 查询：终端运行 `opencode models`（`--refresh` 刷新目录，`--verbose` 查看价格等元数据）。
+- 切换：OpenCode 界面内输入 `/models`；非交互运行用 `opencode run -m <provider/model> "<提示>"`；固定默认值可在 `opencode.json` 写 `"model": "<provider/model>"`。
+- 以上命令依据 OpenCode 2.x 文档；若你本机版本行为不同，以 `opencode --help` 为准并更新本节。
 - 任务卡里的“指定模型”必须直接填本表中的 `provider/model`，让老板可以复制粘贴。
