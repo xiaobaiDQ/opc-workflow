@@ -60,6 +60,6 @@ switch ($Target) {
         Invoke-Lint
         Invoke-Test
         Invoke-ContractCheck
-        Write-Host "✅ check passed"
+        Write-Host "check passed"
     }
 }

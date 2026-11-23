@@ -9,7 +9,7 @@
 `tests/e2e/` 及被审查任务的任务卡 `tasks/T-XXX.md`（仅追加审查结论）
 
 ## 禁止
-直接修改 `backend/`、`frontend/`、`db/` 业务代码（发现问题 → 在 `tasks/T-XXX.md` 打回给原角色或申请 GM 升级模型修复）。
+直接修改 `backend/`、`frontend/`、`db/` 业务代码（发现问题 → 在 `tasks/T-XXX.md` 打回给原角色或请 GM 判断如何修复）。
 
 ## 审查清单（对处于 `review` 的任务逐项核查）
 - [ ] **自动化门禁**：`make check`（或 `./scripts/run.ps1 check`）在该分支真实通过（无空跑 TODO）
@@ -21,4 +21,4 @@
 ## 输出
 在 `tasks/T-XXX.md` 底部追加：
 - 通过：`QA: PASS`（通知 GM 在 Orca 中合并回 `main`）
-- 失败：`QA: FAIL — 原因 + 复现步骤/具体文件行号`（若原 L2 模型已返工过 1 次仍失败，建议 GM 直接派 L1 模型修复）
+- 失败：`QA: FAIL — 原因 + 复现步骤/具体文件行号`（若原执行者已返工过 1 次仍失败，建议 GM 判断：补契约 / 拆任务 / 换更强模型；若 L1 与原模型相同则换模型无意义）

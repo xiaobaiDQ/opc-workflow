@@ -1,6 +1,6 @@
 # AGENTS.md — 所有 Agent 共用的总规则
 
-> 本文件是项目的唯一“宪法”。任何工具（Orca / Claude Code / Codex / Cursor / Antigravity）里的 Agent 开工前必须先读完它，再读自己的 `roles/<角色>.md` 与对应的任务卡 `tasks/T-XXX.md`。
+> 本文件是项目的唯一“宪法”。任何工具（Orca / Claude Code / Codex / Cursor / Antigravity）里的 Agent 开工前必须先读完它，再读自己的 `roles/<角色>.md` ；完整流程的任务还需读对应的任务卡 `tasks/T-XXX.md`（小任务直达无任务卡，见第 5 节）。
 
 ## 1. 项目真相来源（Source of Truth）
 | 内容 | 文件 | 维护者 |
@@ -28,9 +28,10 @@
 
 > 开工前检查：若 `docs/MODELS.md` 状态仍为“未初始化”，GM 必须先完成其中的初始化流程。
 
-### 自动升级与熔断规则（防低价模型死循环）
+### 熔断规则（防低价模型死循环）
 1. **连续失败熔断**：L2/L3 模型在单个任务上运行 `check` **连续失败 ≥ 2 次**，或发现需要修改契约/跨模块架构时，**严禁原地死磕或删改测试**。
-2. **上报升级**：立即在 `tasks/T-XXX.md` 写入 `状态: BLOCKED (请求升级 L1 模型)` 及失败原因并停止，由 GM 换用 L1 模型（或在 Orca 中用 Fan-Out 派发给 L1 档的不同模型）接手。
+2. **记录并停止**：立即在 `tasks/T-XXX.md` 写入 `状态: BLOCKED (需 GM 判断)` 及失败原因、已尝试的做法，然后停止。**执行者不自行决定升级。**
+3. **GM 判断**：由 GM 按 `docs/MODELS.md` 的映射决定：补契约 / 拆小任务 / 换用更强档位的模型（若 L1 与当前模型是同一个，换模型不算升级，应补契约、拆任务或请老板介入）。
 
 ## 3. Orca Worktree 与 Git 协作铁律
 1. **按任务开 Worktree，不按角色常驻 Worktree**：
@@ -44,12 +45,12 @@
 4. **新 Worktree 环境隔离**：
    - GM 必须先把任务卡提交进 `main` 再开 Worktree。新建 Worktree 后先运行 `worktree-init`（脚手架完成前只拷贝 `.env`）。
    - `Makefile` 与 `scripts/run.ps1` 是同一套命令的两份实现，改命令必须两边同步。
-   - 新建 Worktree 后先跑初始化命令自动准备 `.env` 与依赖；多 Worktree 并行启动本地服务时通过 `.env` 中的端口变量错开端口，避免容器与端口冲突。
+   - 多 Worktree 并行启动本地服务时，通过各自 `.env` 中的端口变量错开端口（首次并行前需实测验证端口与测试数据互不影响）。
 
 ## 4. 统一命令入口
 在 Unix / Git Bash / WSL 下统一使用 `make`，在 Windows PowerShell 下可直接运行 `./scripts/run.ps1 <command>`（两者等价）：
 ```
-make worktree-init  # 新建 Worktree 后初始化（拷贝 .env + 安装依赖）
+make worktree-init  # 新建 Worktree 后初始化（拷贝 .env；脚手架完成即有 .scaffold-ready 时才安装依赖）
 make setup          # 安装依赖
 make dev            # 启动本地开发环境
 make test           # 运行测试
@@ -61,14 +62,16 @@ make db-migrate     # 执行数据库迁移
 
 ## 5. 工作纪律与完成定义（DoD）
 
-> **小任务直达（Fast Lane）**：同时满足以下全部条件的任务，**不建任务卡、不开 Worktree 流程**，由一个执行 Agent 在当前分支或一个临时分支直接完成，GM（或老板）一次验收：
+> **小任务直达（Fast Lane）**：同时满足以下全部条件的任务，**不建任务卡、不开 Worktree 流程**，由一个执行 Agent 在**临时分支**（禁止直接改 `main`）完成，GM（或老板）一次验收后合并：
 > 1. 一个 Agent 一次会话能做完；
 > 2. 验收结果明确、可一眼确认（如改文案、改样式、修一个明确的小 Bug）；
 > 3. **不涉及** `contracts/` 接口变更、`db/migrations/` 数据库迁移、跨前后端模块改动、依赖升级。
 >
 > 仍必须：`check` 通过（脚手架完成后）、提交信息写明改了什么。一旦中途发现触碰上述第 3 条，立即停手，回到完整流程建卡。
 
-1. **一次只做一个任务**：必须在 `tasks/T-XXX.md` 中有明确定义和验收标准。
+> **以下第 1、2、4、5 条中涉及任务卡、编号、`review` 状态的要求，仅适用于完整流程，直达通道不适用。**
+
+1. **一次只做一个任务**：完整流程下必须在 `tasks/T-XXX.md` 中有明确定义和验收标准。
 2. **严守目录边界**：只改自己角色允许的目录（见 `roles/*.md`）以及当前任务卡 `tasks/T-XXX.md`。需要跨界修改 → 在 `tasks/T-XXX.md` 标记阻塞交给 GM 协调。
 3. **契约先行**：接口变化先走 `contracts/openapi.yaml`，表结构变化走 `db/migrations/`。
 4. **提交格式**：`[T-XXX] <角色>: <简述>`。
