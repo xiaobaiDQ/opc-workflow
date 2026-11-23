@@ -10,7 +10,7 @@
 | 产品需求 | `docs/PRD.md` | GM |
 | 任务总表 | `tasks/board.md` | **仅 GM 可改** |
 | 单任务（方案、进展、审查） | `tasks/T-XXX.md` | GM 创建，执行角色与 QA 追加 |
-| 模型档位映射 | `docs/MODELS.md` | GM（`opencode models` 查询后填） |
+| 模型档位映射 | `docs/MODELS.md` | GM（记录所选执行器实际可用模型；用 OpenCode 时以 `opencode models` 查询） |
 | 项目 Skill 总表与目录 | `docs/SKILLS.md`、`skills/` | GM（按需登记与实测） |
 | 技术栈与 ADR | `docs/STACK.md` | 架构（小项目 GM 兼任） |
 | 接口契约 / 迁移 | `contracts/openapi.yaml` / `db/migrations/` | 架构 / 后端 |
@@ -57,7 +57,7 @@
 1. **按任务开 Worktree，合并后销毁**。分支 `<角色>/T-XXX-<简述>`，从最新 `main` 拉出；绿灯免卡任务用 `fix/<简述>` 之类的临时分支，**禁止直接改 `main`**。
 2. **底座先合 `main`，业务再并发**：脚手架、契约、共享配置先合入，才能并发开后端/前端。
 3. **单任务单文件**：子 Agent 严禁改 `tasks/board.md`；进展、阻塞、自测、QA 结论只追加到自己的 `tasks/T-XXX.md`。
-4. **GM 派单前**先把 `docs/MODELS.md`、`tasks/board.md`、新任务卡提交到 `main`，再开 Worktree。
+4. **GM 派单前**先把 `docs/MODELS.md`、`docs/SKILLS.md`（及新增 `skills/`）、`tasks/board.md`、新任务卡提交到 `main`，再开 Worktree。
 5. 新 Worktree 先运行 `worktree-init`（脚手架完成前只拷贝 `.env`）。`Makefile` 与 `scripts/run.ps1` 是同一套命令的两份实现，**改命令必须两边同步**。
 
 ## 5. 命令入口与验证分层
