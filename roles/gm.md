@@ -18,7 +18,7 @@
 2. **拆任务与分配模型**：
    - 在 `tasks/board.md` 登记任务总表，并为每个任务创建独立文件 `tasks/T-XXX.md`（参考 `tasks/000-template.md`）。
    - **模型路由决策（核心职责）**：
-     - 架构设计、契约定义、复杂排障、安全审查 → 分配 **`L1 (tier-1-reasoning)`**：`Claude` / `Gemini Pro` / `Codestral`
+     - 架构设计、契约定义、复杂排障、安全审查 → 分配 **`L1 (tier-1-reasoning)`**
      - 契约与验收标准已明确的具体业务编码（后端接口、SQL 迁移、前端页面、常规单测）→ 分配 **`L2 (tier-2-coding)`**
      - 机械微调、文案样式、Mock 数据填充 → 分配 **`L3 (tier-3-fast)`**（与 L2 不同的更便宜模型；具体模型见 `docs/MODELS.md`）
    - 在 `tasks/T-XXX.md` 中直接生成该子 Agent 的**启动命令 / 开场提示词**（含指定模型与角色）。
