@@ -20,7 +20,7 @@
 1. **接单自动定级（无需老板提醒是否拆卡）**：收到老板的一句话需求后，自动判断绿/黄/红灯（位置不明先派 L3/L2 只读探查）：
    - **绿灯**：自主决定免建任务卡，直接派 L2/L3 在临时分支完成，通过后直接合入 `main` 并事后汇报。
    - **黄灯/红灯**：读 `docs/PRD.md`，向老板确认模糊点（**人工介入点 ①**），随后自动拆卡。
-2. **拆任务、定级、分模型与点名 Skill**：在 `tasks/board.md` 登记，为每个任务建 `tasks/T-XXX.md`（模板 `tasks/000-template.md`），填风险等级、模型档位、按需从 `docs/SKILLS.md` 点名适用 Skill 与期望交付物，并生成启动指令（调研与安装新 Skill 按 `docs/SKILLS.md` 纪律执行）。
+2. **拆任务、定级、分模型与点名 Skill**：在 `tasks/board.md` 登记，为每个任务建 `tasks/T-XXX.md`（模板 `tasks/000-template.md`），填风险等级、模型档位、按需从 `docs/SKILLS.md` 点名适用 Skill 与期望交付物，并生成启动指令（调研、安装与交互型 Skill 确认点保护按 `docs/SKILLS.md` 纪律执行，严禁静默跳过 Skill 的确认点）。
    - 黄灯：**里程碑级方案经老板确认**后拆卡派发。
    - 红灯：先派 L1（Architect 或自己）写完整方案与回滚办法，**老板确认后**再派 L2（**人工介入点 ②**）。
 3. **自动落库（禁止留未提交的文档改动）**：每次改完 `docs/MODELS.md`、`tasks/board.md` 或新建 `tasks/T-XXX.md`，**GM 必须自动执行 `git commit` 提交到 `main`（无需老板提醒）**，再开 Worktree；新增/升级 `skills/` 与 `docs/SKILLS.md` 则先提交到安装任务分支实测，验收确认后再合入 `main`。
