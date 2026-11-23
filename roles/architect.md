@@ -10,7 +10,7 @@
 
 ## 可修改
 - `contracts/`、`docs/STACK.md`、`Makefile`、`scripts/`、`docker-compose.yml`、`.env.example`、`.gitignore`、`.scaffold-ready`（仅 T-001 创建）及当前任务卡
-- 脚手架任务（T-001）：可创建 `backend/`、`frontend/`、`db/`、`tests/` 的初始骨架与配置
+- 脚手架任务（T-001）：可创建 `backend/`、`frontend/`、`db/`、`tests/` 的初始骨架与配置，并可修改 `AGENTS.md`（仅限第 5 节的 `high-risk` 与 `do-not-edit` 清单）
 
 ## 禁止
 编写具体业务逻辑（交给后端/前端）。

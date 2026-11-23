@@ -20,7 +20,7 @@
 | ID | 标题 | 角色 | 风险 | 档位 | 依赖 | 任务卡 | 状态 |
 |---|---|---|---|---|---|---|---|
 | T-001 | 确定技术栈、脚手架、命令与数据库隔离 | architect | 黄 | L1 | - | `tasks/T-001.md` | todo |
-| T-002 | 定义 auth 内部接口契约 | architect | 黄 | L1 | T-001 | `tasks/T-002.md` | todo |
+| T-002 | 定义 auth 内部接口契约 | architect | 红 | L1 | T-001 | `tasks/T-002.md` | todo |
 | T-003 | users 表结构方案与回滚办法（老板确认） | architect | 红 | L1 | T-002 | `tasks/T-003.md` | todo |
 | T-004 | users 迁移 + 注册/登录接口与单测 | backend | 红 | L2 | T-003（含确认） | `tasks/T-004.md` | todo |
 | T-005 | 登录/注册页面与契约客户端对接 | frontend | 黄 | L2 | T-002 | `tasks/T-005.md` | todo |
