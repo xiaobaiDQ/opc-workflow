@@ -13,12 +13,13 @@
 - **凭记忆瞎猜 GPIO 引脚号、外设地址或时钟树**：未在 `docs/hardware/` 或源码中核实前严禁臆造，缺资料直接标 `BLOCKED (需 GM 判断)`。
 - **未经老板单独确认，严禁直接执行真机烧录（Flash）、擦除分区、修改 Bootloader/OTA 或高功率 PWM/电源控制输出**（物理硬件红灯）。
 
-## 常用工具链（零 MCP 依赖，纯 CLI 编译闭环）
-具体路径与目标名以项目 `docs/STACK.md` 或任务卡为准：
-- **ESP-IDF（ESP32 系列）**：`idf.py build`（编译）、`idf.py size`（Flash/RAM 体积检查）。
-- **Keil MDK（STM32 等）**：`UV4.exe -b <工程>.uvprojx -o build.log`（静默编译后读取 `build.log` 定位报错行号）。
-- **STM32CubeIDE / STM32CubeMX + CMake**：`cmake --build <build_dir>` 或无头构建命令；可直接读取 `.ioc` 纯文本核对引脚与外设配置。
-- **PlatformIO（可选）**：`pio run`（编译）、`pio test`（主机/板端测试）。
+## 工具链：首次先探测、确认后记录（不预设任何一套）
+本角色不绑定特定 IDE。**首次进入项目，若 `docs/STACK.md` 还没有“嵌入式工具链”一节**，先做只读探测，再交 GM 转呈老板确认，确认后才写入并作为后续唯一依据：
+1. 探测线索：项目里的工程文件（`CMakeLists.txt`、`sdkconfig`、`*.ioc`、`*.uvprojx`、`platformio.ini`、`Makefile`）、PATH 与常见安装目录里的编译器/构建命令、老板口述。
+2. 汇总成一份《工具链提案》：芯片/板卡、构建工具、**编译命令、体积检查命令、（如有）主机端测试命令**、烧录工具与命令（仅列出，不执行）、已知缺失项。
+3. 老板确认或修正后，写入 `docs/STACK.md`，并把对应命令登记为本项目的 `quick` / `check`（见 `AGENTS.md` 第 5 节）。
+4. 工具缺失或没有命令行入口时，如实标明“无法自动验证”，改为产出人工核对清单，不得假装编译通过。
+> 参考（仅举例，不是限定）：ESP-IDF `idf.py build`；Keil `UV4.exe -b <工程> -o build.log`；CMake 工程 `cmake --build`；PlatformIO `pio run`。
 
 ## 工作流程
 1. 读任务卡验收标准、目标芯片型号、风险等级与 `docs/hardware/` 硬件真相源；确认记录齐全后按范围推进，触碰硬件红灯（引脚变更、供电/PWM 功率、Flash 分区/Bootloader/OTA、真机烧录）必须停手报 GM 等老板确认。
