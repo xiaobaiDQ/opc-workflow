@@ -1,6 +1,6 @@
 # T-XXX 任务标题
 
-- **负责角色**：`architect` | `backend` | `frontend` | `qa`
+- **负责角色**：填写本项目 `roles/` 下对应的角色名（如 `architect`、`backend`、`frontend`、`qa`，或已启用的专科角色）
 - **风险等级**：`绿` | `黄` | `红`（定级规则见 `AGENTS.md` 第 3 节；红灯须先有已确认的方案）
 - **模型档位**：`L1` | `L2` | `L3`　**执行器与模型**：填执行器（如 Claude Code / Codex / Antigravity / OpenCode / Orca Bot）及实际可用模型或档位（见 `docs/MODELS.md`）
 - **类型**：`feature` | `bugfix`（bugfix 须遵守 `AGENTS.md` 第 7 节）
