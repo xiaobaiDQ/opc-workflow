@@ -9,7 +9,7 @@
 | **后端工程师** | L2（高性价比编码） | `roles/backend.md` | 后端业务代码、数据库迁移、单测、跨模块调用链探查 |
 | **前端工程师** | L2（高性价比编码） | `roles/frontend.md` | 前端页面组件、状态交互、单测、前端代码探查 |
 | **小伙计** | L3（极速最便宜） | `roles/helper.md` | 日常杂活、绿灯小修、快速只读找文件/符号/测试 |
-| **进化官** *(旁路按需)* | L1（强推理） | `roles/evolver.md` | 评估新点子/复盘、双模型交叉审查、提炼 Skill（只对老板单线汇报，不插手日常业务，不修改外部独立规范库） |
+| **进化官** *(旁路按需)* | L1（强推理） | `roles/evolver.md` | 评估新点子/复盘、双模型交叉审查、提炼 Skill（只对老板单线汇报，不插手日常业务） |
 
 ## Worktree 初始化脚本（Orca 项目设置）
 - **Windows PowerShell**：`powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/run.ps1 worktree-init`
