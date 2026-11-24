@@ -21,7 +21,7 @@
 ## 2. 模型档位（具体模型见 `docs/MODELS.md`，不得凭记忆编模型名）
 | 档位 | 用途 |
 |---|---|
-| L1 `tier-1-reasoning` | GM、Architect、红灯方案、QA 核心审查、疑难 Bug |
+| L1 `tier-1-reasoning` | GM、Architect、Evolver（旁路复盘与 Skill 提炼）、红灯方案、QA 核心审查、疑难 Bug |
 | L2 `tier-2-coding` | Backend / Frontend 按已确认的任务卡实现 |
 | L3 `tier-3-fast` | 文案样式微调、Mock 数据、格式修复、机械重构 |
 

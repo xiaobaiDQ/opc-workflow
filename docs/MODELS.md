@@ -15,7 +15,7 @@
 ## 选型标准（按能力特征挑，不按名字）
 | 档位 | 用途 | 挑选特征 | 优先级 |
 |---|---|---|---|
-| **L1 深度推理** `tier-1-reasoning` | GM、Architect、QA 核心审查、熔断后的疑难修复 | 本机最强的旗舰/推理（thinking / reasoning / pro / opus 一类）模型 | 质量 > 成本 |
+| **L1 深度推理** `tier-1-reasoning` | GM、Architect、Evolver（旁路复盘/Skill 提炼）、QA 核心审查、熔断后的疑难修复 | 本机最强的旗舰/推理（thinking / reasoning / pro / opus 一类）模型 | 质量 > 成本 |
 | **L2 业务编码** `tier-2-coding` | Backend、Frontend 按契约写代码与测试 | 编码能力强、性价比高的中档模型（sonnet / flash / V3 / codex 中档一类） | 性价比 |
 | **L3 极速轻量** `tier-3-fast` | 样式文案微调、Mock 数据、格式修复、机械重构 | 最便宜最快的小模型（haiku / flash-lite / mini 一类） | 成本 / 速度 |
 
