@@ -33,7 +33,8 @@ $utf8 = New-Object System.Text.UTF8Encoding($false)
 foreach ($f in $files) {
     $src = Join-Path $Source $f.From
     $body = [IO.File]::ReadAllText($src, $utf8) -replace "`r`n", "`n"
-    $header = "> **只读快照**：来源 ``$src``，commit ``$commit``，同步于 $stamp。$dirtyNote`n" +
+    $rel = $f.From -replace "\\", "/"
+    $header = "> **只读快照**：来源规范库 ``$rel``，commit ``$commit``，同步于 $stamp。$dirtyNote`n" +
               "> 不得手改，更新请运行 ``scripts/sync-rules.ps1``。本项目 ``AGENTS.md`` 与本文件冲突时**以 AGENTS.md 为准**；" +
               "文中『等用户确认』『合并主干单独确认』等条款已由 AGENTS.md 第 3 节映射为 GM/老板分层确认。`n`n"
     [IO.File]::WriteAllText((Join-Path $dest $f.To), $header + $body, $utf8)

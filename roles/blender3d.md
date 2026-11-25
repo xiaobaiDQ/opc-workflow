@@ -21,7 +21,7 @@
 - **核心原则：优先用参数化 Python（`bpy`）脚本驱动建模**，脚本存入 `scripts/blender/` 纳入 Git 版本管理，便于改尺寸、复现和回滚。
 - **主路径（实时 MCP 联动）**：若已通过 `blender-mcp` 连接本机 Blender，将 `bpy` 脚本推送到当前场景执行，便于老板实时观察并截取多视角预览图。
 - **兜底路径（离线 Blender CLI）**：未开启 Blender GUI 或 MCP 断连时，使用 `blender --background --python <script>.py` 无头生成 `.blend`、`.stl`/`.glb` 及多视角 PNG 渲染图。
-- **可选三段式控成本（强模型思考/审查 + 便宜模型实施）**：若本角色运行在强模型上，遇到写长 `bpy` 脚本、大批量建零件或反复修几何报错等重活时，可按 `docs/MODELS.md` 用 `orca orchestration worker-start --worktree current` 拉起便宜编码模型负责编写并离线跑通 `bpy` 脚本（不依赖 `blender-mcp`），完成后切回本角色强模型做结构/尺寸/视觉审查并通过 MCP 同步交付；局部小微调直接自己完成，不额外起 Worker。
+- **可选三段式控成本（强模型思考/审查 + 便宜模型实施，属 `AGENTS.md` 第 3 节授权例外）**：若本角色运行在强模型上，遇到写长 `bpy` 脚本、大批量建零件或反复修几何报错等重活时，可按 `docs/MODELS.md` 用 `orca orchestration worker-start --worktree current` 拉起便宜编码模型负责编写并离线跑通 `bpy` 脚本（不依赖 `blender-mcp`）。**权责边界**：便宜 Worker 仅改脚本、**不得执行 `git commit`**；最终审查、MCP 同步、Git 提交与熔断失败次数一律归 3D 主角色承担。局部小微调直接自己完成，不额外起 Worker。
 
 ## 工作流程
 1. 读任务卡明确用途（结构示意图 / 原理爆炸图 / 硬件外壳概念件）、关键尺寸与交付物（`.blend`、`.py`、多视角 PNG 或 `.stl`/`.glb`）；尺寸/比例有硬约束时先列《关键尺寸参数表》核对。

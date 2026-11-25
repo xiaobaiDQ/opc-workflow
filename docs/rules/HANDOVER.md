@@ -1,4 +1,4 @@
-> **只读快照**：来源 `D:\OPC Project\rules\templates\docs\HANDOVER.md`，commit `3c43645`，同步于 2026-11-23。
+> **只读快照**：来源规范库 `templates/docs/HANDOVER.md`，commit `c8a3f60`，同步于 2026-11-25。
 > 不得手改，更新请运行 `scripts/sync-rules.ps1`。本项目 `AGENTS.md` 与本文件冲突时**以 AGENTS.md 为准**；文中『等用户确认』『合并主干单独确认』等条款已由 AGENTS.md 第 3 节映射为 GM/老板分层确认。
 
 # HANDOVER.md - 交接说明

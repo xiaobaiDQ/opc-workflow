@@ -2,9 +2,16 @@ openapi: 3.0.3
 info:
   title: OPC API
   version: 0.1.0
+  license:
+    name: MIT
+servers:
+  - url: http://localhost:3001
+    description: Local development server
+security: []
 paths:
   /health:
     get:
+      operationId: getHealth
       summary: 健康检查
       responses:
         "200":
@@ -15,6 +22,12 @@ paths:
                 type: object
                 properties:
                   status: { type: string, example: ok }
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Error:
