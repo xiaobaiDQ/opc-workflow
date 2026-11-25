@@ -19,6 +19,9 @@ out/
 coverage/
 *.tsbuildinfo
 
+# 本地嵌套工作树（严禁误提交）
+.worktrees/
+
 # 日志与临时文件
 *.log
 npm-debug.log*

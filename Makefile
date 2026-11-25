@@ -15,7 +15,8 @@ setup:
 	@exit 1
 
 dev:
-	docker compose up
+	@echo "TODO(architect in T-001): 配置本地开发启动命令，例如 docker compose up"
+	@exit 1
 
 # 快测（秒级）：类型检查 + lint + 与改动相关的单测。编码途中每次改完跑这个。
 quick:
@@ -36,7 +37,7 @@ retest:
 	@exit 1
 
 contract-check:
-	npx --yes @redocly/cli lint contracts/openapi.yaml
+	npx --yes @redocly/cli@1.34.5 lint contracts/openapi.yaml
 
 db-migrate:
 	@echo "TODO(architect/backend): 配置数据库迁移命令"

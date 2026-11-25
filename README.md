@@ -21,11 +21,12 @@
 ## 目录
 ```text
 AGENTS.md / CLAUDE.md     总规则（唯一权威出处）
-roles/                    7 份角色说明书（gm / architect / backend / frontend / qa / helper / evolver）
+roles/                    9 份角色说明书（gm / architect / backend / frontend / qa / helper / evolver，及选配 embedded / blender3d）
 docs/PRD.md               产品需求
 docs/MODELS.md            L1/L2/L3 → 各执行器实际可用模型或 Orca Bot 映射
+docs/ORCA-BOTS.md         Orca 团队 Bot 配置清单、窗口管理与分项目记忆抽屉规范
 docs/SKILLS.md            项目级 Skill 管理总表（来源、角色、各执行器实测状态）
-skills/                   项目实际安装的 Skill 目录（扁平存放 skills/<名>/SKILL.md）
+skills/                   项目实际安装的 Skill 目录（扁平存放 skills/<名>/SKILL.md，内置 grill-me）
 docs/STACK.md             技术栈与决策记录
 docs/rules/               通用编码规范只读快照（PRINCIPLES / WORKFLOW / RESEARCH / HANDOVER）
 tasks/board.md            任务总表（仅 GM 维护）

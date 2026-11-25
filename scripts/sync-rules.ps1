@@ -1,10 +1,15 @@
 ﻿param(
-    [string]$Source = "D:\OPC Project\rules"
+    [string]$Source = $env:OPC_RULES_REPO
 )
 
-# 从 vibcoding 规范库同步通用编码规范快照到 docs/rules/。
+# 从通用编码规范库同步只读快照到 docs/rules/。
 # 本文件必须保持 UTF-8 带 BOM。快照只读，不得手改；更新请重新运行本脚本并提交。
 $ErrorActionPreference = "Stop"
+
+if ([string]::IsNullOrWhiteSpace($Source)) {
+    Write-Host "请通过 -Source <规范库本地路径> 传参，或先设置环境变量 OPC_RULES_REPO。" -ForegroundColor Red
+    exit 1
+}
 
 $root = Split-Path -Parent $PSScriptRoot
 $dest = Join-Path $root "docs\rules"

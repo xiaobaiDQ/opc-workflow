@@ -21,44 +21,44 @@ function Invoke-WorktreeInit {
 }
 
 function Invoke-Setup {
-    Write-Error "TODO(architect in T-001): 配置依赖安装命令，例如 pnpm install"
+    Write-Host "TODO(architect in T-001): 配置依赖安装命令，例如 pnpm install" -ForegroundColor Red
     exit 1
 }
 
 function Invoke-Dev {
-    docker compose up
-    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Write-Host "TODO(architect in T-001): 配置本地开发启动命令，例如 docker compose up" -ForegroundColor Red
+    exit 1
 }
 
 # 快测（秒级）：类型检查 + lint + 与改动相关的单测。
 function Invoke-Quick {
-    Write-Error "TODO(architect in T-001): 配置快测命令（未配置前禁止假通过）"
+    Write-Host "TODO(architect in T-001): 配置快测命令（未配置前禁止假通过）" -ForegroundColor Red
     exit 1
 }
 
 function Invoke-Test {
-    Write-Error "TODO(architect in T-001): 配置全量测试命令（未配置前禁止假通过）"
+    Write-Host "TODO(architect in T-001): 配置全量测试命令（未配置前禁止假通过）" -ForegroundColor Red
     exit 1
 }
 
 function Invoke-Lint {
-    Write-Error "TODO(architect in T-001): 配置格式化、lint 与类型检查（未配置前禁止假通过）"
+    Write-Host "TODO(architect in T-001): 配置格式化、lint 与类型检查（未配置前禁止假通过）" -ForegroundColor Red
     exit 1
 }
 
 # 重测：E2E / 集成 / 冒烟。
 function Invoke-Retest {
-    Write-Error "TODO(architect in T-001): 配置 E2E/集成/冒烟命令（未配置前禁止假通过）"
+    Write-Host "TODO(architect in T-001): 配置 E2E/集成/冒烟命令（未配置前禁止假通过）" -ForegroundColor Red
     exit 1
 }
 
 function Invoke-ContractCheck {
-    npx --yes @redocly/cli lint contracts/openapi.yaml
+    npx --yes @redocly/cli@1.34.5 lint contracts/openapi.yaml
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
 function Invoke-DbMigrate {
-    Write-Error "TODO(architect/backend): 配置数据库迁移命令"
+    Write-Host "TODO(architect/backend): 配置数据库迁移命令" -ForegroundColor Red
     exit 1
 }
 
