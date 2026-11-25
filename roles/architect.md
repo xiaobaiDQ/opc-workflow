@@ -24,6 +24,6 @@
 6. **T-001 专属**：
    - 把 `Makefile` 与 `scripts/run.ps1` 的 `setup/quick/test/lint/retest/db-migrate` 占位换成真实命令（**两文件同步改**；`run.ps1` 须保持 **UTF-8 带 BOM**，否则 Windows PowerShell 5.1 解析失败）。
    - 补全 `AGENTS.md` 第 5 节 yaml 中的 `high-risk` / `do-not-edit` 清单。
-   - 同时把 `.env.example` 的数据库改成每个 Worktree 独立的库名，并实测验证两棵树互不影响。
+   - 在 `worktree-init` 中按 Worktree 目录名生成独立的库名与端口（`Makefile` 与 `scripts/run.ps1` 同步实现），并实测验证两棵树互不影响。
    - 确认 `make check` 真实通过后创建 `.scaffold-ready` 一并提交。在此之前 `worktree-init` 只拷贝 `.env`，所以 T-001 无需跑它。
 7. 任务卡状态改为 `review`，提醒 GM 先合并进 `main` 再开下游并行任务。

@@ -12,7 +12,7 @@
 | 单任务（方案、进展、审查） | `tasks/T-XXX.md` | GM 创建，执行角色与 QA 追加 |
 | 模型档位映射 | `docs/MODELS.md` | GM（记录所选执行器实际可用模型；用 OpenCode 时以 `opencode models` 查询） |
 | 项目 Skill 总表与目录 | `docs/SKILLS.md`、`skills/` | GM（按需登记与实测） |
-| 技术栈与 ADR | `docs/STACK.md` | 架构（小项目 GM 兼任；ADR 格式以本文件为准，覆盖 `RESEARCH.md` 中的 `docs/decisions.md`） |
+| 技术栈与 ADR | `docs/STACK.md` | 架构（小项目 GM 兼任；ADR 格式以 `docs/STACK.md` 的 ADR 表为准，覆盖 `RESEARCH.md` 中的 `docs/decisions.md`） |
 | 接口契约 / 迁移 | `contracts/openapi.yaml` / `db/migrations/` | 架构 / 后端 |
 | 团队 Bot 配置与会话规范 | `docs/ORCA-BOTS.md` | GM / Evolver |
 | 会话交接记录 | `docs/HANDOVER.md` | GM |
@@ -89,7 +89,7 @@ merge-gate:  make check
 retest:      make retest
 # 以下由 Architect 在 T-001 补全；未补全前，认证/支付/迁移/发布相关一律按最高风险处理
 high-risk:   [db/migrations/, contracts/, <认证/授权目录>, <支付/计费目录>, <CI/CD 与部署配置>, <生产环境变量>]
-do-not-edit: [node_modules/, dist/, build/, <生成的 API 客户端目录>, .env 与 .env.*（严禁提交或泄露密钥；本地隔离值由项目 T-001 脚手架在 worktree-init 中按实际技术栈生成或由老板配置）]
+do-not-edit: [node_modules/, dist/, build/, <生成的 API 客户端目录>, .env 与 .env.*（.env.example 除外；严禁提交或泄露密钥；本地隔离值由项目 T-001 脚手架在 worktree-init 中按实际技术栈生成或由老板配置）]
 ```
 
 ## 6. 熔断规则（防低价模型死循环）
