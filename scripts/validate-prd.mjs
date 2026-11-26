@@ -104,7 +104,13 @@ if (!allowTemplate) {
   for (let i = 0; i < lines.length; i++) {
     if (inCodeBlock[i]) continue;
     const trimmed = lines[i].trim();
-    if (!trimmed || trimmed.startsWith(">") || /^#{1,6}\s/.test(trimmed)) continue;
+    if (!trimmed || trimmed.startsWith(">")) continue;
+    if (/^#{1,6}\s/.test(trimmed)) {
+      if (/示例界面名称/.test(trimmed)) {
+        errors.push(`第 ${i + 1} 行标题仍包含未填写的模板占位「示例界面名称」`);
+      }
+      continue;
+    }
 
     // 表格行：逐格检查是否命中固定占位或整格仅剩一段全角括号
     if (trimmed.startsWith("|")) {
