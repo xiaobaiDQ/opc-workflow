@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
- * OPC Markdown PRD 机械格式校验脚本（零外部依赖，仅用 Node 标准库）。
- * 用法：node scripts/validate-prd.mjs [docs/PRD.md]
+ * OPC Markdown PRD 机械格式校验脚本（零外部依赖，需要 Node >= 16）。
+ * 用法：node scripts/validate-prd.mjs [docs/PRD.md] [--allow-template]
  * 退出码：0 = 格式检查通过（可能有非阻断 Warning）；1 = 格式检查失败；2 = 文件不存在。
  * 注意：脚本通过仅说明格式与结构合规，不等于 PRD 内容合格。
  */
@@ -9,7 +9,9 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const targetPath = process.argv[2] || "docs/PRD.md";
+const args = process.argv.slice(2);
+const allowTemplate = args.includes("--allow-template");
+const targetPath = args.find((a) => !a.startsWith("--")) || "docs/PRD.md";
 const resolved = path.resolve(targetPath);
 
 if (!fs.existsSync(resolved)) {
@@ -23,10 +25,23 @@ const lines = raw.split("\n");
 const errors = [];
 const warnings = [];
 
-// 1. 收集所有 H2 章节与正文切片
+// 0. 标记围栏代码块范围，避免代码块内的 ## 或表格被误判
+const inCodeBlock = new Array(lines.length).fill(false);
+let fenced = false;
+for (let i = 0; i < lines.length; i++) {
+  if (/^\s*```/.test(lines[i])) {
+    inCodeBlock[i] = true;
+    fenced = !fenced;
+    continue;
+  }
+  inCodeBlock[i] = fenced;
+}
+
+// 1. 收集所有 H2 章节与正文切片（忽略代码块内）
 const h2Sections = [];
 let current = null;
 for (let i = 0; i < lines.length; i++) {
+  if (inCodeBlock[i]) continue;
   const m = lines[i].match(/^##\s+(.+?)\s*$/);
   if (m) {
     if (current) {
@@ -42,8 +57,12 @@ function findSection(keyword) {
   return h2Sections.find((s) => s.title.includes(keyword));
 }
 
-function sectionText(sec) {
-  return lines.slice(sec.startLine, sec.endLine).join("\n");
+function sectionLines(sec) {
+  const out = [];
+  for (let i = sec.startLine; i < sec.endLine; i++) {
+    if (!inCodeBlock[i]) out.push({ text: lines[i], lineNo: i + 1 });
+  }
+  return out;
 }
 
 // 2. 必需章节检查
@@ -60,7 +79,6 @@ for (const name of requiredSections) {
   }
 }
 
-// 不允许独立的异常/边界大章
 const badBoundaryH2 = h2Sections.find(
   (s) => s.title.includes("异常处理") || s.title.includes("边界情况")
 );
@@ -70,10 +88,36 @@ if (badBoundaryH2) {
   );
 }
 
-// 3. 范围块三段检查（在需求概述内）
+// 3. 未填写模板占位文字检查（传 --allow-template 时跳过，供空模板自检）
+if (!allowTemplate) {
+  const placeholderPatterns = [
+    { re: /（填写）/, label: "（填写）" },
+    { re: /YYYY-MM-DD/, label: "YYYY-MM-DD" },
+    { re: /示例界面名称/, label: "示例界面名称" },
+    { re: /（例如[：:]/, label: "（例如：...）" },
+    { re: /（示例[：:]/, label: "（示例：...）" },
+    { re: /（用户获得的结果）/, label: "（用户获得的结果）" },
+    { re: /（写清本次必须交付/, label: "模板占位说明" },
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    if (inCodeBlock[i]) continue;
+    const trimmed = lines[i].trim();
+    if (trimmed.startsWith(">")) continue;
+    for (const p of placeholderPatterns) {
+      if (p.re.test(trimmed)) {
+        errors.push(`第 ${i + 1} 行仍包含未填写的模板占位「${p.label}」`);
+        break;
+      }
+    }
+  }
+}
+
+// 4. 范围块三段检查（在需求概述内）
 const overviewSec = findSection("需求概述");
 if (overviewSec) {
-  const txt = sectionText(overviewSec);
+  const txt = sectionLines(overviewSec)
+    .map((x) => x.text)
+    .join("\n");
   for (const part of ["本期必做", "后期预留", "本期不做"]) {
     if (!txt.includes(part)) {
       errors.push(`「需求概述」范围块缺少「${part}」段落`);
@@ -81,19 +125,18 @@ if (overviewSec) {
   }
 }
 
-// 4. 需求目标表 5 列检查
+// 5. 需求目标表 5 列检查
 const goalSec = findSection("需求目标");
 if (goalSec) {
-  const txt = sectionText(goalSec);
-  const tableHeaderLine = txt
-    .split("\n")
-    .find((l) => l.trim().startsWith("|") && l.includes("用户结果"));
-  if (!tableHeaderLine) {
+  const tableHeader = sectionLines(goalSec).find(
+    (x) => x.text.trim().startsWith("|") && x.text.includes("用户结果")
+  );
+  if (!tableHeader) {
     errors.push(
       "「需求目标」缺少 5 列表格（表头须包含：用户结果 | 衡量指标 | 统计口径 | 预期方向 | 目标值）"
     );
   } else {
-    const cols = tableHeaderLine
+    const cols = tableHeader.text
       .trim()
       .replace(/^\||\|$/g, "")
       .split("|")
@@ -110,19 +153,19 @@ if (goalSec) {
   }
 }
 
-// 5. 详细方案：每个 ### 界面必须包含【页面元素】和【交互说明】，并检查技术用语（仅警告）
+// 6. 详细方案：每个 ### 界面必须包含【页面元素】和【交互说明】，检查分块占位“无/同上”与技术用语（仅警告）
 const detailSec = findSection("详细方案");
 if (detailSec) {
-  const detailLines = lines.slice(detailSec.startLine, detailSec.endLine);
+  const dLines = sectionLines(detailSec);
   const screens = [];
   let curScreen = null;
-  for (let i = 0; i < detailLines.length; i++) {
-    const m = detailLines[i].match(/^###\s+(.+?)\s*$/);
+  for (const item of dLines) {
+    const m = item.text.match(/^###\s+(.+?)\s*$/);
     if (m) {
       if (curScreen) screens.push(curScreen);
-      curScreen = { title: m[1], body: [], line: detailSec.startLine + i + 1 };
+      curScreen = { title: m[1], items: [], line: item.lineNo };
     } else if (curScreen) {
-      curScreen.body.push(detailLines[i]);
+      curScreen.items.push(item);
     }
   }
   if (curScreen) screens.push(curScreen);
@@ -141,27 +184,27 @@ if (detailSec) {
   ];
 
   for (const sc of screens) {
-    const bodyText = sc.body.join("\n");
+    const bodyText = sc.items.map((x) => x.text).join("\n");
     if (!bodyText.includes("【页面元素】")) {
       errors.push(`详细方案「${sc.title}」（第 ${sc.line} 行）缺少【页面元素】`);
     }
     if (!bodyText.includes("【交互说明】")) {
       errors.push(`详细方案「${sc.title}」（第 ${sc.line} 行）缺少【交互说明】`);
     }
-    // 检查懒惰占位词（同上 / 独立“无”）
-    for (let j = 0; j < sc.body.length; j++) {
-      const l = sc.body[j].trim();
-      const absLine = sc.line + j + 1;
+    for (const item of sc.items) {
+      const l = item.text.trim();
       if (l.includes("同上") && !l.includes("不写“同上”")) {
-        errors.push(`详细方案「${sc.title}」（第 ${absLine} 行）出现禁止指代词「同上」`);
+        errors.push(`详细方案「${sc.title}」（第 ${item.lineNo} 行）出现禁止指代词「同上」`);
       }
       if (/^(?:[-*]|\d+\.)\s*无\s*$/.test(l) || /^【[^】]+】\s*[:：]?\s*无\s*$/.test(l)) {
-        errors.push(`详细方案「${sc.title}」（第 ${absLine} 行）出现无效占位「无」（不涉及请省略该块）`);
+        errors.push(
+          `详细方案「${sc.title}」（第 ${item.lineNo} 行）出现无效占位「无」（不涉及请省略该块）`
+        );
       }
       for (const pat of techPatterns) {
         if (pat.test(l) && !l.startsWith(">")) {
           warnings.push(
-            `详细方案「${sc.title}」（第 ${absLine} 行）疑似包含技术实现用语（${pat.source}），请确认是否应改用产品语言`
+            `详细方案「${sc.title}」（第 ${item.lineNo} 行）疑似包含技术实现用语（${pat.source}），请确认是否应改用产品语言`
           );
           break;
         }
@@ -170,8 +213,9 @@ if (detailSec) {
   }
 }
 
-// 6. 全文表格单元格独立“同上”或“无”检查
+// 7. 全文表格单元格只拦截“同上”，不误杀权限/规则表里合法的“无”
 for (let i = 0; i < lines.length; i++) {
+  if (inCodeBlock[i]) continue;
   const l = lines[i].trim();
   if (!l.startsWith("|") || /^\|[\s:-]+\|$/.test(l)) continue;
   const cells = l
@@ -179,8 +223,8 @@ for (let i = 0; i < lines.length; i++) {
     .split("|")
     .map((c) => c.trim());
   for (const c of cells) {
-    if (c === "同上" || c === "无") {
-      errors.push(`第 ${i + 1} 行表格单元格出现无效占位「${c}」`);
+    if (c === "同上") {
+      errors.push(`第 ${i + 1} 行表格单元格出现禁止指代词「同上」`);
     }
   }
 }

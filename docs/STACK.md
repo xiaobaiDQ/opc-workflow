@@ -12,7 +12,7 @@
 | 数据库迁移与访问 | `db/migrations/*.sql`（可配合 Drizzle / Prisma / dbmate） | 迁移文件统一落盘到 `db/migrations/`，兼顾可追溯性与类型安全 |
 | 接口契约 | `contracts/openapi.yaml` + 自动生成前端类型/客户端 | L1 模型定好契约后，前后端 L2 模型各自照契约写代码，零沟通损耗 |
 | 本地运行 | Docker Compose（共享基础 DB + Worktree 环境变量隔离端口） | 避免 Orca 多 Worktree 同时启动时端口与容器冲突 |
-| 质量门禁 | `make check` / `./scripts/run.ps1 check` | 确定性关卡（Lint + Typecheck + Test + Contract Check） |
+| 质量门禁 | `make check` / `./scripts/run.ps1 check`（模板内置 `contract-check` 与 `prd-check` 需 Node >= 16） | 确定性关卡（Lint + Typecheck + Test + Contract Check） |
 
 ## 2. 可替换方案
 - **Python 后端**：FastAPI + Pydantic + Alembic/SQL（导出或校验 `contracts/openapi.yaml`）

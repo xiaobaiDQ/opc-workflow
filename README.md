@@ -22,7 +22,8 @@
 ```text
 AGENTS.md / CLAUDE.md     总规则（唯一权威出处）
 roles/                    10 份角色说明书（gm / architect / backend / frontend / qa / helper / evolver，及选配 pm / embedded / blender3d）
-docs/PRD.md               产品需求
+docs/PRD.md               产品需求（写完跑 prd-check 校验格式）
+docs/research/            需求挖掘、竞品对比与数据复盘（选配 PM 维护）
 docs/MODELS.md            L1/L2/L3 → 各执行器实际可用模型或 Orca Bot 映射
 docs/ORCA-BOTS.md         Orca 团队 Bot 配置清单、窗口管理与分项目记忆抽屉规范
 docs/SKILLS.md            项目级 Skill 管理总表（来源、角色、各执行器实测状态）
@@ -34,6 +35,7 @@ tasks/000-template.md     任务卡模板
 contracts/openapi.yaml    接口契约
 db/migrations/            数据库迁移
 Makefile / scripts/run.ps1   统一命令入口（两份实现，必须同步）
+scripts/validate-prd.mjs  Markdown PRD 机械格式校验（prd-check 入口，零依赖，需 Node >= 16）
 scripts/sync-rules.ps1    从规范库同步 docs/rules/ 快照
 .env.example              多 Worktree 环境变量示例
 ```
