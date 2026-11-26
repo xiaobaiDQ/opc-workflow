@@ -15,9 +15,10 @@
 | **产品经理（PM）** *(选配上游)* | L1（强推理 + 调研） | `roles/pm.md` | 0→1 需求挖掘、竞品与痛点分析、砍伪需求定 MVP、产出 `docs/PRD.md`（不指挥工程师） |
 
 ## Worktree 初始化脚本与路径配置（Orca 项目设置）
-- **路径根目录**：在 Orca 登记项目时显式配置 `--worktree-base-path <仓库>/.worktrees`（自动创建时给明单段任务名，不用 `new-top-level`）；创建后跑 `worktree-check` 核验实际路径与 `.gitignore` 命中结果。
-- **Windows PowerShell**：`powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/run.ps1 worktree-init`
-- **Git Bash / WSL / macOS / Linux**：`make worktree-init`
+- **路径根目录**（已在 `orca 1.4.272` / `2026-11-26` 实测 `orca project setup-update --help` 核实）：登记项目后通过 `orca project setup-update --setup <setup-id> --worktree-base-path <仓库>/.worktrees` 显式配置（修改 Orca 项目设置须老板确认）；自动创建须显式提供单段任务名、禁止 `new-top-level`，创建后先跑 `worktree-check` 再核对 Orca 返回路径一致。
+- **自动创建实测记录**：`create` 未验证｜`worker-start` 未验证（实测后填版本、日期与实际落点路径）。
+- **Windows PowerShell**：`powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/run.ps1 worktree-init`（核验：`./scripts/run.ps1 worktree-check -Name <任务名>`）
+- **Git Bash / WSL / macOS / Linux**：`make worktree-init`（核验：`make worktree-check NAME=<任务名>`）
 
 > **精简原则**：以下开场提示只放**跨项目保命习惯 + 路由**，具体流程细则只留在 `AGENTS.md` 与对应 `roles/*.md`（避免多处重复维护）。
 

@@ -11,7 +11,7 @@ worktree-init:
 	@if [ -f .scaffold-ready ]; then $(MAKE) setup; else echo "[skip] 脚手架尚未完成(无 .scaffold-ready)，跳过依赖安装。T-001 完成时由 architect 创建该标记。"; fi
 
 worktree-check:
-	node scripts/check-worktree.mjs
+	node scripts/check-worktree.mjs $(NAME)
 
 setup:
 	@echo "TODO(architect in T-001): 配置依赖安装命令，例如 pnpm install"

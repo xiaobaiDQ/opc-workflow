@@ -1,7 +1,9 @@
 ﻿param(
     [Parameter(Mandatory=$true, Position=0)]
     [ValidateSet("worktree-init", "worktree-check", "setup", "dev", "quick", "test", "lint", "retest", "contract-check", "prd-check", "db-migrate", "check")]
-    [string]$Target
+    [string]$Target,
+    [Parameter(Mandatory=$false, Position=1)]
+    [string]$Name = ""
 )
 
 # 注意：本文件必须保持 UTF-8 带 BOM，否则 Windows PowerShell 5.1 会解析失败。
@@ -21,7 +23,11 @@ function Invoke-WorktreeInit {
 }
 
 function Invoke-WorktreeCheck {
-    node scripts/check-worktree.mjs
+    if ([string]::IsNullOrWhiteSpace($Name)) {
+        node scripts/check-worktree.mjs
+    } else {
+        node scripts/check-worktree.mjs $Name
+    }
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
