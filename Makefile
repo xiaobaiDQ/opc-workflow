@@ -3,7 +3,7 @@
 #       修改任何命令时必须【同时】修改两个文件。分层定义见 AGENTS.md 第 5 节。
 # Windows PowerShell 若无 make，请直接运行: ./scripts/run.ps1 <target>
 
-.PHONY: worktree-init setup dev quick test lint retest contract-check check db-migrate
+.PHONY: worktree-init setup dev quick test lint retest contract-check prd-check check db-migrate
 
 # 新 Worktree 初始化：先准备 .env；脚手架完成前（无 .scaffold-ready 标记）只提示、不安装依赖。
 worktree-init:
@@ -38,6 +38,9 @@ retest:
 
 contract-check:
 	npx --yes @redocly/cli@1.34.5 lint contracts/openapi.yaml
+
+prd-check:
+	node scripts/validate-prd.mjs docs/PRD.md
 
 db-migrate:
 	@echo "TODO(architect/backend): 配置数据库迁移命令"

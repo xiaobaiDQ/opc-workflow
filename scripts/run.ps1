@@ -1,6 +1,6 @@
 ﻿param(
     [Parameter(Mandatory=$true, Position=0)]
-    [ValidateSet("worktree-init", "setup", "dev", "quick", "test", "lint", "retest", "contract-check", "db-migrate", "check")]
+    [ValidateSet("worktree-init", "setup", "dev", "quick", "test", "lint", "retest", "contract-check", "prd-check", "db-migrate", "check")]
     [string]$Target
 )
 
@@ -57,6 +57,11 @@ function Invoke-ContractCheck {
     if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
+function Invoke-PrdCheck {
+    node scripts/validate-prd.mjs docs/PRD.md
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+}
+
 function Invoke-DbMigrate {
     Write-Host "TODO(architect/backend): 配置数据库迁移命令" -ForegroundColor Red
     exit 1
@@ -71,6 +76,7 @@ switch ($Target) {
     "lint"           { Invoke-Lint }
     "retest"         { Invoke-Retest }
     "contract-check" { Invoke-ContractCheck }
+    "prd-check"      { Invoke-PrdCheck }
     "db-migrate"     { Invoke-DbMigrate }
     "check" {
         # 合并门禁

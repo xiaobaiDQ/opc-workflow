@@ -25,7 +25,7 @@
 ## 2. 模型档位（具体模型见 `docs/MODELS.md`，不得凭记忆编模型名）
 | 档位 | 用途 |
 |---|---|
-| L1 `tier-1-reasoning` | GM、Architect、Evolver（旁路复盘与 Skill 提炼）、红灯方案、QA 核心审查、疑难 Bug |
+| L1 `tier-1-reasoning` | GM、PM（选配上游）、Architect、Evolver（旁路复盘与 Skill 提炼）、红灯方案、QA 核心审查、疑难 Bug |
 | L2 `tier-2-coding` | Backend / Frontend 按已确认的任务卡实现 |
 | L3 `tier-3-fast` | 文案样式微调、Mock 数据、格式修复、机械重构 |
 
@@ -58,7 +58,7 @@
 - **老板单独确认的动作**（无论等级）：合并黄/红灯任务、共享/生产库迁移、删除用户数据/已入库或已交付产物/不可恢复文件（临时文件、方案副本、已合并的 Worktree 不在此列）、发布部署与生产配置、凭证密钥权限、对外发送内容。**同意方案 ≠ 同意执行到底。**
 
 ## 4. Orca Worktree 与 Git 协作
-1. **按任务开 Worktree，合并后销毁**。分支 `<角色>/T-XXX-<简述>`，从最新 `main` 拉出；绿灯免卡任务用 `fix/<简述>` 之类的临时分支，**禁止直接改 `main`**（**GM 白名单例外**：仅 GM 在派单、交接与维护看板时，可直接向 `main` 提交 `tasks/board.md`、`tasks/T-XXX.md`、`docs/MODELS.md`、`docs/PRD.md`、`docs/HANDOVER.md`；其余改动一律走分支）。
+1. **按任务开 Worktree，合并后销毁**。分支 `<角色>/T-XXX-<简述>`（选配 PM 撰写 PRD/调研走 `pm/<需求简述>`，经老板拍板后再合入 `main`），从最新 `main` 拉出；绿灯免卡任务用 `fix/<简述>` 之类的临时分支，**禁止直接改 `main`**（**GM 白名单例外**：仅 GM 在派单、交接与维护看板时，可直接向 `main` 提交 `tasks/board.md`、`tasks/T-XXX.md`、`docs/MODELS.md`、`docs/PRD.md`、`docs/HANDOVER.md`；其余改动一律走分支）。
 2. **底座先合 `main`，业务再并发**：脚手架、契约、共享配置先合入，才能并发开后端/前端。
 3. **单任务单文件**：子 Agent 严禁改 `tasks/board.md`；进展、阻塞、自测、QA 结论只追加到自己的 `tasks/T-XXX.md`。
 4. **GM 派单前**先把 `docs/MODELS.md`、`tasks/board.md`、新任务卡提交到 `main`，再开 Worktree（新增/升级 `skills/` 与 `docs/SKILLS.md` 先在任务分支实测，验收合并后再派发依赖它的业务任务，详见 `docs/SKILLS.md`）。**任务进行中若老板改变了交付目标或验收标准，GM 必须及时同步更新执行工作树里的 `tasks/T-XXX.md`（及受影响的 PRD/契约），明确废弃旧标准，严禁只口头纠偏而留着旧文档。**
@@ -74,6 +74,7 @@ Unix/Git Bash/WSL 用 `make`，Windows PowerShell 用 `./scripts/run.ps1 <comman
 | `quick` | **快测（秒级）** | 编码途中每次改完：类型检查 + lint + 与改动相关的单测 |
 | `check` | **合并门禁** | 标 `review` 前、合并前：lint + 全量 test + contract-check |
 | `retest` | **重测** | E2E/集成/冒烟：红灯任务、阶段收尾、发布前 |
+| `prd-check` | **PRD 格式校验** | 改完 `docs/PRD.md` 时跑（不并入 `check`；格式通过仅证结构合规，不等于内容合格） |
 
 编码途中只跑 `quick`，不要每改两行就跑全量；但**没跑过 `quick` 的改动不算完成**（脚手架完成前、无 `.scaffold-ready` 时的纯文档/注释改动除外，该阶段由 GM 检查 diff 与引用路径并记录结果）。命令未配置时必须失败，**严禁假通过**；跑不通就停下报告，不要换一个“差不多”的命令。
 
