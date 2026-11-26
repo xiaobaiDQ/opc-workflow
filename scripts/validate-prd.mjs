@@ -99,15 +99,43 @@ if (!allowTemplate) {
     { re: /（用户获得的结果）/, label: "（用户获得的结果）" },
     { re: /（写清本次必须交付/, label: "模板占位说明" },
   ];
+  const pureParenRe = /^（[^（）]+）$/;
+
   for (let i = 0; i < lines.length; i++) {
     if (inCodeBlock[i]) continue;
     const trimmed = lines[i].trim();
-    if (trimmed.startsWith(">")) continue;
-    for (const p of placeholderPatterns) {
-      if (p.re.test(trimmed)) {
-        errors.push(`第 ${i + 1} 行仍包含未填写的模板占位「${p.label}」`);
-        break;
+    if (!trimmed || trimmed.startsWith(">") || /^#{1,6}\s/.test(trimmed)) continue;
+
+    // 表格行：逐格检查是否命中固定占位或整格仅剩一段全角括号
+    if (trimmed.startsWith("|")) {
+      if (/^\|[\s:-]+\|$/.test(trimmed)) continue;
+      const cells = trimmed
+        .replace(/^\||\|$/g, "")
+        .split("|")
+        .map((c) => c.trim());
+      for (const cell of cells) {
+        const matched = placeholderPatterns.find((p) => p.re.test(cell));
+        if (matched) {
+          errors.push(`第 ${i + 1} 行表格单元格仍包含未填写的模板占位「${matched.label}」`);
+        } else if (pureParenRe.test(cell)) {
+          errors.push(`第 ${i + 1} 行表格单元格仍为未填写占位「${cell}」`);
+        }
       }
+      continue;
+    }
+
+    // 正文/列表行：先查固定占位，再剥离列表符号与粗体标签后查整行是否仅剩一段全角括号
+    const matched = placeholderPatterns.find((p) => p.re.test(trimmed));
+    if (matched) {
+      errors.push(`第 ${i + 1} 行仍包含未填写的模板占位「${matched.label}」`);
+      continue;
+    }
+    const stripped = trimmed
+      .replace(/^(?:[-*]\s+(?:\[[ xX]\]\s+)?|\d+\.\s+)/, "")
+      .replace(/^\*\*[^*]+\*\*\s*[：:]\s*/, "")
+      .trim();
+    if (pureParenRe.test(stripped)) {
+      errors.push(`第 ${i + 1} 行仍为未填写占位「${stripped}」`);
     }
   }
 }
