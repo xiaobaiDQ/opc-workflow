@@ -7,7 +7,8 @@
 ## 1. 真相来源
 | 内容 | 文件 | 维护者 |
 |---|---|---|
-| 产品需求 | `docs/PRD.md` | GM |
+| 产品需求 | `docs/PRD.md` | PM / GM（选配 PM 负责挖掘起草，小项目由 GM 兼任） |
+| 需求与竞品调研 *(选配 PM)* | `docs/research/` | PM |
 | 任务总表 | `tasks/board.md` | **仅 GM 可改** |
 | 单任务（方案、进展、审查） | `tasks/T-XXX.md` | GM 创建，执行角色与 QA 追加 |
 | 模型档位映射 | `docs/MODELS.md` | GM（记录所选执行器实际可用模型；用 OpenCode 时以 `opencode models` 查询） |

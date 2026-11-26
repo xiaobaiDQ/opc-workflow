@@ -21,7 +21,7 @@
 ## 目录
 ```text
 AGENTS.md / CLAUDE.md     总规则（唯一权威出处）
-roles/                    9 份角色说明书（gm / architect / backend / frontend / qa / helper / evolver，及选配 embedded / blender3d）
+roles/                    10 份角色说明书（gm / architect / backend / frontend / qa / helper / evolver，及选配 pm / embedded / blender3d）
 docs/PRD.md               产品需求
 docs/MODELS.md            L1/L2/L3 → 各执行器实际可用模型或 Orca Bot 映射
 docs/ORCA-BOTS.md         Orca 团队 Bot 配置清单、窗口管理与分项目记忆抽屉规范
