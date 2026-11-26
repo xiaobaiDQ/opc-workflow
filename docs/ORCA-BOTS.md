@@ -14,7 +14,8 @@
 | **3D 建模工程师** *(选配专科)* | L2（优先带看图能力） | `roles/blender3d.md` | Blender 示意图 / 3D 结构件建模（`bpy` 脚本 + 独立挂载 `blender-mcp`） |
 | **产品经理（PM）** *(选配上游)* | L1（强推理 + 调研） | `roles/pm.md` | 0→1 需求挖掘、竞品与痛点分析、砍伪需求定 MVP、产出 `docs/PRD.md`（不指挥工程师） |
 
-## Worktree 初始化脚本（Orca 项目设置）
+## Worktree 初始化脚本与路径配置（Orca 项目设置）
+- **路径根目录**：在 Orca 登记项目时显式配置 `--worktree-base-path <仓库>/.worktrees`（自动创建时给明单段任务名，不用 `new-top-level`）；创建后跑 `worktree-check` 核验实际路径与 `.gitignore` 命中结果。
 - **Windows PowerShell**：`powershell -NoProfile -ExecutionPolicy Bypass -File ./scripts/run.ps1 worktree-init`
 - **Git Bash / WSL / macOS / Linux**：`make worktree-init`
 

@@ -3,12 +3,15 @@
 #       修改任何命令时必须【同时】修改两个文件。分层定义见 AGENTS.md 第 5 节。
 # Windows PowerShell 若无 make，请直接运行: ./scripts/run.ps1 <target>
 
-.PHONY: worktree-init setup dev quick test lint retest contract-check prd-check check db-migrate
+.PHONY: worktree-init worktree-check setup dev quick test lint retest contract-check prd-check check db-migrate
 
 # 新 Worktree 初始化：先准备 .env；脚手架完成前（无 .scaffold-ready 标记）只提示、不安装依赖。
 worktree-init:
 	@if [ ! -f .env ] && [ -f .env.example ]; then cp .env.example .env && echo "Created .env from .env.example"; fi
 	@if [ -f .scaffold-ready ]; then $(MAKE) setup; else echo "[skip] 脚手架尚未完成(无 .scaffold-ready)，跳过依赖安装。T-001 完成时由 architect 创建该标记。"; fi
+
+worktree-check:
+	node scripts/check-worktree.mjs
 
 setup:
 	@echo "TODO(architect in T-001): 配置依赖安装命令，例如 pnpm install"

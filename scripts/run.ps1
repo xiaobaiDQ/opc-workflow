@@ -1,6 +1,6 @@
 ﻿param(
     [Parameter(Mandatory=$true, Position=0)]
-    [ValidateSet("worktree-init", "setup", "dev", "quick", "test", "lint", "retest", "contract-check", "prd-check", "db-migrate", "check")]
+    [ValidateSet("worktree-init", "worktree-check", "setup", "dev", "quick", "test", "lint", "retest", "contract-check", "prd-check", "db-migrate", "check")]
     [string]$Target
 )
 
@@ -18,6 +18,11 @@ function Invoke-WorktreeInit {
     } else {
         Write-Host "[skip] 脚手架尚未完成(无 .scaffold-ready)，跳过依赖安装。T-001 完成时由 architect 创建该标记。"
     }
+}
+
+function Invoke-WorktreeCheck {
+    node scripts/check-worktree.mjs
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 
 function Invoke-Setup {
@@ -69,6 +74,7 @@ function Invoke-DbMigrate {
 
 switch ($Target) {
     "worktree-init"  { Invoke-WorktreeInit }
+    "worktree-check" { Invoke-WorktreeCheck }
     "setup"          { Invoke-Setup }
     "dev"            { Invoke-Dev }
     "quick"          { Invoke-Quick }

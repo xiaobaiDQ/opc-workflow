@@ -63,6 +63,7 @@
 3. **单任务单文件**：子 Agent 严禁改 `tasks/board.md`；进展、阻塞、自测、QA 结论只追加到自己的 `tasks/T-XXX.md`。
 4. **GM 派单前**先把 `docs/MODELS.md`、`tasks/board.md`、新任务卡提交到 `main`，再开 Worktree（新增/升级 `skills/` 与 `docs/SKILLS.md` 先在任务分支实测，验收合并后再派发依赖它的业务任务，详见 `docs/SKILLS.md`）。**任务进行中若老板改变了交付目标或验收标准，GM 必须及时同步更新执行工作树里的 `tasks/T-XXX.md`（及受影响的 PRD/契约），明确废弃旧标准，严禁只口头纠偏而留着旧文档。**
 5. 新 Worktree 先运行 `worktree-init`（脚手架完成前只拷贝 `.env`）。`Makefile` 与 `scripts/run.ps1` 是同一套命令的两份实现，**改命令必须两边同步**。
+6. **Worktree 路径与核验**：独立 Git Worktree 一律位于 `<仓库>/.worktrees/<单段任务名>`（禁止在父级平铺，`.gitignore` 须忽略 `.worktrees/`），创建后运行 `make worktree-check`（Windows：`./scripts/run.ps1 worktree-check`）核验；Orca 自动创建路径配置见 `docs/ORCA-BOTS.md`。
 
 ## 5. 命令入口与验证分层
 Unix/Git Bash/WSL 用 `make`，Windows PowerShell 用 `./scripts/run.ps1 <command>`（等价）。
@@ -70,6 +71,7 @@ Unix/Git Bash/WSL 用 `make`，Windows PowerShell 用 `./scripts/run.ps1 <comman
 | 命令 | 层级 | 用途 / 何时跑 |
 |---|---|---|
 | `worktree-init` | — | 新 Worktree 初始化（拷贝 .env；有 `.scaffold-ready` 才装依赖） |
+| `worktree-check` | — | 核验当前 Worktree 位于 `.worktrees/<单段任务名>`、已登记且被 `.gitignore` 忽略 |
 | `setup` / `dev` / `db-migrate` | — | 装依赖 / 本地运行 / 执行迁移 |
 | `quick` | **快测（秒级）** | 编码途中每次改完：类型检查 + lint + 与改动相关的单测 |
 | `check` | **合并门禁** | 标 `review` 前、合并前：lint + 全量 test + contract-check |

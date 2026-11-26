@@ -36,6 +36,7 @@ contracts/openapi.yaml    接口契约
 db/migrations/            数据库迁移
 Makefile / scripts/run.ps1   统一命令入口（两份实现，必须同步）
 scripts/validate-prd.mjs  Markdown PRD 机械格式校验（prd-check 入口，零依赖，需 Node >= 16）
+scripts/check-worktree.mjs   Worktree 路径与 .gitignore 核验（worktree-check 入口，零依赖）
 scripts/sync-rules.ps1    从规范库同步 docs/rules/ 快照
 .env.example              多 Worktree 环境变量示例
 ```
