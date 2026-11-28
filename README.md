@@ -1,6 +1,6 @@
 # OPC 多 Agent 工作流模板（Orca 多执行器版）
 
-一人公司（OPC）+ 一支按需调度的 AI 团队：**GM（总经理）、Architect（架构/QA）、Backend（后端含 DB）、Frontend（前端）、Helper（小伙计 — L3 杂活与只读探路）**，另配旁路按需唤醒的 **Evolver（进化官 — 复盘与 Skill 提炼，不插手日常业务）**。
+一人公司（OPC）+ 一支按需调度的 AI 团队：**GM（总经理）、Architect（架构）、QA（独立审查官）、Backend（后端含 DB）、Frontend（前端）、Helper（小伙计 — L3 杂活与只读探路）**，另配选配上游 **PM（产品经理）**、选配专科 **Embedded（嵌入式）/ Blender3D（3D 建模）** 与旁路按需唤醒的 **Evolver（进化官 — 复盘与 Skill 提炼，不插手日常业务）**。
 
 > **所有规则只在 [AGENTS.md](AGENTS.md) 定义**（风险分级、授权、熔断、缺陷修复、红线、验证分层、高危/禁改）。本文件只讲怎么用，不重复规则。
 
